@@ -1,0 +1,13 @@
+@charset "UTF-8";
+*{
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+html,body{
+  font-size: 16px;
+  color: #343434;
+  background: #fff;
+}
