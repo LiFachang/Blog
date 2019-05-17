@@ -13,7 +13,8 @@ Object.keys(myComponents).map((key) => {
   Vue.component(key, myComponents[key])
 })
 
-axios.defaults.baseURL = host
+// axios.defaults.baseURL = host.host
+// console.log(host.host)
 
 Vue.prototype.$http = axios
 Vue.config.productionTip = false

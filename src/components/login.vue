@@ -53,7 +53,7 @@
           }
         }).then(res => {
           console.log(res)
-        })
+        }).catch(err => console.log(err))
       },
       register () {
         console.log('注册')
