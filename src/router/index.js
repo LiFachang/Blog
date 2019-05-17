@@ -12,6 +12,11 @@ const routes = [
     component: view('home')
   },
   {
+    path: '/register',
+    name: 'register',
+    component: view('register')
+  },
+  {
     path: '/login',
     name: 'login',
     component: view('login')
@@ -26,7 +31,7 @@ const router =  new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.name !== 'login' && !sessionStorage.getItem('token')) {
+  if (to.name !== 'login' && to.name !== 'register' && !sessionStorage.getItem('token')) {
     next('/login')
   } else {
     next()
