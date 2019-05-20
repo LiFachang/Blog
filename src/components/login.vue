@@ -4,15 +4,15 @@
     <table>
       <tr>
         <td width="30%">用户名：</td>
-        <td><input type="text" placeholder="请输入用户名"></td>
+        <td><input type="text" placeholder="请输入用户名" v-model="userName"></td>
       </tr>
       <tr>
         <td>密码：</td>
-        <td><input type="password" placeholder="请输入密码"></td>
+        <td><input type="password" placeholder="请输入密码" v-model="userPwd"></td>
       </tr>
       <tr v-if="title === '注册'">
         <td>确认密码：</td>
-        <td><input type="password" placeholder="请确认密码"></td>
+        <td><input type="password" placeholder="请确认密码" v-model="repeatPwd"></td>
       </tr>
     </table>
     <div class="btn btn-active" v-if="title === '登录'" @click="login">登录</div>
@@ -20,6 +20,8 @@
 
     <div class="btn btn-active" v-if="title === '注册'" @click="register">注册</div>
     <router-link v-if="title === '注册'" tag="div" class="btn" :to="{name: 'login'}">已有账号，去登录</router-link>
+
+    <alert></alert>
   </div>
 </template>
 <script>
@@ -27,10 +29,9 @@
     data() {
       return {
         title: '',
-        user: {
-          name: '',
-          password: ''
-        }
+        userName: '',
+        userPwd: '',
+        repeatPwd: ''
       }
     },
     mounted() {
@@ -45,7 +46,6 @@
     },
     methods: {
       login () {
-        //this.$http.get('/apis?name="李法昌"&age=28').then(res => console.log(res))
         this.$http.post('/apis', {
           params: {
             name: 'lfc',
@@ -56,7 +56,17 @@
         }).catch(err => console.log(err))
       },
       register () {
-        console.log('注册')
+        if (this.userName !== '' && (this.userPwd !== '' && this.userPwd === this.repeatPwd)) {
+          let params = {
+            userName: this.userName,
+            userPwd: this.userPwd
+          }
+          this.$post('/api/register1', params).then(res => {
+            console.log('=====', res.code)
+          }).catch(err => console.log(err));
+        } else {
+          alert('用户名或密码不规范，请重新输入');
+        }
       }
     }
   }
@@ -76,14 +86,14 @@
   }
   td{
     padding-top: 20px;
-    height: 44px;
-    line-height: 44px;
+    height: 50px;
+    line-height: 50px;
     border-bottom: 1px dashed #ccc;
   }
   input{
     width: 100%;
-    height: 44px;
-    line-height: 44px;
+    height: 50px;
+    line-height: 50px;
     font-size: 16px;
     text-align: left;
   }
@@ -91,8 +101,8 @@
     width: 100%;
     margin: 20px 0;
     text-align: center;
-    height: 44px;
-    line-height: 42px;
+    height: 50px;
+    line-height: 48px;
     border: 1px solid #ccc;
     border-radius: 4px;
   }

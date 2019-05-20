@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
-import host from './apis/hostConfig'
+import {get, post} from "./request/http"
 import './assets/common.css'
 import myComponents from './components/index'
 
@@ -16,7 +16,9 @@ Object.keys(myComponents).map((key) => {
 // axios.defaults.baseURL = host.host
 // console.log(host.host)
 
-Vue.prototype.$http = axios
+Vue.prototype.$get = get
+Vue.prototype.$post = post
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
