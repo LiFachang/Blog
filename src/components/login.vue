@@ -61,8 +61,10 @@
             userName: this.userName,
             userPwd: this.userPwd
           }
-          this.$post('/api/register1', params).then(res => {
-            console.log('=====', res.code)
+          this.$post('/api/register', params).then(res => {
+            if (res.code) {
+
+            }
           }).catch(err => console.log(err));
         } else {
           alert('用户名或密码不规范，请重新输入');
