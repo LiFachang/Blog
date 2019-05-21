@@ -21,7 +21,7 @@
     <div class="btn btn-active" v-if="title === '注册'" @click="register">注册</div>
     <router-link v-if="title === '注册'" tag="div" class="btn" :to="{name: 'login'}">已有账号，去登录</router-link>
 
-    <alert></alert>
+    <alert v-if="alertMsg.msg !== ''" :alertMsg="alertMsg"></alert>
   </div>
 </template>
 <script>
@@ -31,7 +31,10 @@
         title: '',
         userName: '',
         userPwd: '',
-        repeatPwd: ''
+        repeatPwd: '',
+        alertMsg: {
+          msg: ''
+        }
       }
     },
     mounted() {
@@ -61,10 +64,13 @@
             userName: this.userName,
             userPwd: this.userPwd
           }
-          this.$post('/api/register', params).then(res => {
-            if (res.code) {
+          this.$post('/register', params).then(res => {
+            if (res.code === 0) {
 
+            } else {
+              this.alertMsg.title = '错误'
             }
+            this.alertMsg.msg = res.message;
           }).catch(err => console.log(err));
         } else {
           alert('用户名或密码不规范，请重新输入');

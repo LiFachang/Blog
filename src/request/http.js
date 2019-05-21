@@ -1,12 +1,5 @@
 import axios from 'axios'
 
-if (process.env.NODE_ENV == 'development') {
-  // axios.defaults.baseURL = 'http://127.0.0.1:8888/';
-}
-else if(process.env.NODE_ENV == 'production') {
-  axios.defaults.baseURL = 'http://140.143.163.171/';
-}
-
 
 axios.defaults.timeout = 10000;
 
@@ -104,9 +97,9 @@ axios.interceptors.response.use(
  * @param {String} url [请求的url地址]
  * @param {Object} params [请求时携带的参数]
  */
-export function get(url, params){
+export function get(api, params){
   return new Promise((resolve, reject) =>{
-    axios.get(url, {
+    axios.get(process.env.API_HOST + api, {
       params: params
     }).then(res => {
       resolve(res.data);
@@ -123,10 +116,11 @@ export function get(url, params){
  * @param {String} url [请求的url地址]
  * @param {Object} params [请求时携带的参数]
  */
-export function post(url, params) {
+export function post(api, params) {
   return new Promise((resolve, reject) => {
-    axios.post(url, JSON.stringify(params))
+    axios.post(process.env.API_HOST + api, JSON.stringify(params))
       .then(res => {
+        console.log('post请求返回数据：', res);
         resolve(res.data);
       })
       .catch(err =>{

@@ -1,14 +1,17 @@
 <template>
-  <div v-if="false" class="alert">
+  <div class="alert">
     <div>
-      <p class="title">提示</p>
-      <p class="txt">内内容内容内容内容内容内容内容内容内容内容容</p>
-      <div class="btn">确定</div>
+      <p class="title">{{alertMsg.title ? alertMsg.title : '提示'}}</p>
+      <p class="txt">{{alertMsg.msg}}</p>
+      <div class="btn">{{alertMsg.btnTxt ? alertMsg.btnTxt : '确定'}}</div>
     </div>
   </div>
 </template>
 <script>
   export default {
+    props: {
+      alertMsg: { type: Object } //title msg btnTxt
+    },
     data() {
       return {}
     },
