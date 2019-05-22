@@ -21,7 +21,7 @@
     <div class="btn btn-active" v-if="title === '注册'" @click="register">注册</div>
     <router-link v-if="title === '注册'" tag="div" class="btn" :to="{name: 'login'}">已有账号，去登录</router-link>
 
-    <alert v-if="alertMsg.msg !== ''" :alertMsg="alertMsg"></alert>
+    <alert :alertMsg="alertMsg" @alertClick="alertClick"></alert>
   </div>
 </template>
 <script>
@@ -66,7 +66,7 @@
           }
           this.$post('/register', params).then(res => {
             if (res.code === 0) {
-
+              this.alertMsg.title = ''
             } else {
               this.alertMsg.title = '错误'
             }
@@ -74,6 +74,14 @@
           }).catch(err => console.log(err));
         } else {
           alert('用户名或密码不规范，请重新输入');
+        }
+      },
+      alertClick () {
+        this.alertMsg.msg = '';
+        if (this.alertMsg.msg.indexOf('成功') >= 0) {
+          this.$router.push({
+            name: 'login'
+          })
         }
       }
     }

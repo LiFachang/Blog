@@ -1,11 +1,13 @@
 <template>
-  <div class="alert">
-    <div>
-      <p class="title">{{alertMsg.title ? alertMsg.title : '提示'}}</p>
-      <p class="txt">{{alertMsg.msg}}</p>
-      <div class="btn">{{alertMsg.btnTxt ? alertMsg.btnTxt : '确定'}}</div>
+  <transition name="alert">
+    <div v-if="alertMsg.msg !== ''" class="alert">
+      <div>
+        <p class="title">{{alertMsg.title ? alertMsg.title : '提示'}}</p>
+        <p class="txt">{{alertMsg.msg}}</p>
+        <div class="btn" @click="alertClick">{{alertMsg.btnTxt ? alertMsg.btnTxt : '确定'}}</div>
+      </div>
     </div>
-  </div>
+  </transition>
 </template>
 <script>
   export default {
@@ -17,7 +19,11 @@
     },
     mounted() {
     },
-    methods: {}
+    methods: {
+      alertClick () {
+        this.$emit('alertClick')
+      }
+    }
   }
 </script>
 <style scoped>

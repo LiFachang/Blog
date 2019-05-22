@@ -11,3 +11,39 @@ html,body{
   color: #343434;
   background: #fff;
 }
+.btn{cursor: pointer;}
+
+
+/*alert动效*/
+.alert-enter-active, .alert-leave-active {
+  transition: all .2s ease;
+}
+.alert-enter, .alert-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translate(0%, 100%);
+}
+
+/*router动效*/
+.router-enter-active, .router-leave-active {
+  transition: all .25s ease;
+}
+/*.router-enter, .router-leave-to !* .fade-leave-active below version 2.1.8 *! {*/
+  /*transform: translate(100%, 0%);*/
+/*}*/
+
+.router-enter {
+  opacity: 0;
+  transform: translate(100%, 0%);
+}
+.router-enter-to {
+  opacity: 1;
+  transform: translate(0%, 0%);
+}
+.router-leave {
+  opacity: 1;
+  transform: translate(0%, 0%);
+}
+.router-leave-to {
+  opacity: 0;
+  transform: translate(-100%, 0%);
+}
