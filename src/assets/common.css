@@ -11,6 +11,12 @@ html,body{
   color: #343434;
   background: #fff;
 }
+@media screen and (min-width: 1024px) {
+  .container{
+    max-width: 1024px;
+    margin: 0 auto;
+  }
+}
 .btn{cursor: pointer;}
 
 

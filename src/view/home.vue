@@ -1,6 +1,7 @@
 <template>
   <div id="">
-    <h1>首页</h1>
+    <search></search>
+    <manageBtn></manageBtn>
   </div>
 </template>
 <script>

@@ -5,6 +5,8 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import {get, post} from "./request/http"
+import './assets/iconfont/iconfont.css'
+import './assets/iconfont/iconfont.js'
 import './assets/common.css'
 import myComponents from './components/index'
 
