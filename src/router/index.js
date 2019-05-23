@@ -22,6 +22,21 @@ const routes = [
     component: view('login')
   },
   {
+    path: '/article',
+    name: 'article',
+    component: view('article')
+  },
+  {
+    path: '/editArticle',
+    name: 'editArticle',
+    component: view('editArticle')
+  },
+  {
+    path: '/myCenter',
+    name: 'myCenter',
+    component: view('myCenter')
+  },
+  {
     path: '*',
     redirect: {name: 'home'}
   }
