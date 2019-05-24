@@ -15,8 +15,6 @@ Object.keys(myComponents).map((key) => {
   Vue.component(key, myComponents[key])
 })
 
-// axios.defaults.baseURL = host.host
-// console.log(host.host)
 
 Vue.prototype.$get = get;
 Vue.prototype.$post = post;

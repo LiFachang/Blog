@@ -49,40 +49,65 @@
     },
     methods: {
       login () {
-        this.$http.post('/apis', {
-          params: {
-            name: 'lfc',
-            age: 30
+        if (this.userName.trim() === '' || this.userPwd.trim() === '') {
+          this.alertMsg.msg = '用户名或密码不能为空，请重新输入';
+          return
+        }
+        let params = {
+          userName: this.userName,
+          userPwd: this.userPwd
+        }
+        this.$post('/login', params).then(res => {
+          if (res.code === 0) {
+            this.loginSucess(res.token)
+          } else {
+            this.alertMsg.msg = res.message
           }
-        }).then(res => {
-          console.log(res)
         }).catch(err => console.log(err))
       },
       register () {
-        if (this.userName !== '' && (this.userPwd !== '' && this.userPwd === this.repeatPwd)) {
-          let params = {
-            userName: this.userName,
-            userPwd: this.userPwd
-          }
-          this.$post('/register', params).then(res => {
-            if (res.code === 0) {
-              this.alertMsg.title = ''
-            } else {
-              this.alertMsg.title = '错误'
-            }
-            this.alertMsg.msg = res.message;
-          }).catch(err => console.log(err));
+        if (this.userName.trim() === '' || this.userPwd.trim() === '') {
+          this.alertMsg.msg = '用户名或密码不能为空，请重新输入';
+          return
+        }
+
+        if (this.userPwd === this.repeatPwd) {
+          this.toRegister();
         } else {
-          alert('用户名或密码不规范，请重新输入');
+          this.alertMsg.msg = '两次密码不一致，请重新输入';
+          return
         }
       },
       alertClick () {
-        this.alertMsg.msg = '';
         if (this.alertMsg.msg.indexOf('成功') >= 0) {
+          this.alertMsg.msg = '';
           this.$router.push({
             name: 'login'
           })
+        } else {
+          this.alertMsg.msg = '';
         }
+      },
+      toRegister() {
+        let params = {
+          userName: this.userName,
+          userPwd: this.userPwd
+        }
+        this.$post('/register', params).then(res => {
+          if (res.code === 0) {
+            this.alertMsg.title = ''
+          } else {
+            this.alertMsg.title = '错误'
+          }
+          this.alertMsg.msg = res.message;
+        }).catch(err => console.log(err));
+      },
+      loginSucess (token) {
+        let nowTime = new Date();
+        let a = nowTime.getTime() + (0.5 * 60 * 60);
+        console.log(nowTime.toUTCString());
+        console.log(nowTime.getTime());
+        console.log(a.toGMTString())
       }
     }
   }

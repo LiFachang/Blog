@@ -32,9 +32,14 @@ const routes = [
     component: view('editArticle')
   },
   {
-    path: '/myCenter',
-    name: 'myCenter',
-    component: view('myCenter')
+    path: '/myCenterMobile',
+    name: 'myCenterMobile',
+    component: view('myCenterMobile')
+  },
+  {
+    path: '/myCenterPc',
+    name: 'myCenterPc',
+    component: view('myCenterPc')
   },
   {
     path: '*',
@@ -46,12 +51,11 @@ const router =  new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  // if (to.name !== 'login' && to.name !== 'register' && !sessionStorage.getItem('token')) {
-  //   next('/login')
-  // } else {
-  //   next()
-  // }
-  next()
+  if (to.name !== 'login' && to.name !== 'register' && !sessionStorage.getItem('token')) {
+    next('/login')
+  } else {
+    next()
+  }
 })
 
 export default router

@@ -12,11 +12,6 @@
       useHtml () {
         return `<use xlink:href="#${this.id}"></use>`
       },
-      useSize () {
-        if (this.size) {
-          return { fontSize : this.size}
-        }
-      },
       useStyle () {
         let styleObj = {};
         if (this.size) {

@@ -2,7 +2,7 @@
   <div class="search-box" @click="searchResult = !searchResult">
     <div class="search-container container">
       <div class="input-box">
-        <iconfont :id="'icon-icon_search'"></iconfont>
+        <iconfont :id="'icon-icon_search'" :size="'26px'"></iconfont>
         <input class="search-input" type="text" placeholder="搜索内容">
         <span class="search-btn">搜索</span>
       </div>

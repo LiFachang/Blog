@@ -120,7 +120,6 @@ export function post(api, params) {
   return new Promise((resolve, reject) => {
     axios.post(process.env.API_HOST + api, JSON.stringify(params))
       .then(res => {
-        console.log('post请求返回数据：', res);
         resolve(res.data);
       })
       .catch(err =>{
