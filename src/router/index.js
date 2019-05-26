@@ -51,11 +51,7 @@ const router =  new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.name !== 'login' && to.name !== 'register' && !sessionStorage.getItem('token')) {
-    next('/login')
-  } else {
-    next()
-  }
-})
+  next()
+});
 
 export default router

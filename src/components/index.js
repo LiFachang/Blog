@@ -6,6 +6,7 @@ import manageBtn from './manageBtn.vue'
 import headPhoto from './headPhoto.vue'
 import authorInfo from './authorInfo.vue'
 import comment from './comment.vue'
+import tips from './tips.vue'
 
 const myComponents = {
   login,
@@ -15,6 +16,7 @@ const myComponents = {
   manageBtn,
   headPhoto,
   authorInfo,
-  comment
+  comment,
+  tips
 };
 export default myComponents

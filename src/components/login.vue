@@ -22,6 +22,7 @@
     <router-link v-if="title === '注册'" tag="div" class="btn" :to="{name: 'login'}">已有账号，去登录</router-link>
 
     <alert :alertMsg="alertMsg" @alertClick="alertClick"></alert>
+    <tips :tips="tips"></tips>
   </div>
 </template>
 <script>
@@ -34,7 +35,8 @@
         repeatPwd: '',
         alertMsg: {
           msg: ''
-        }
+        },
+        tips: ''
       }
     },
     mounted() {
@@ -59,7 +61,9 @@
         }
         this.$post('/login', params).then(res => {
           if (res.code === 0) {
-            this.loginSucess(res.token)
+            this.$router.push({
+              name: 'home'
+            })
           } else {
             this.alertMsg.msg = res.message
           }
@@ -101,13 +105,6 @@
           }
           this.alertMsg.msg = res.message;
         }).catch(err => console.log(err));
-      },
-      loginSucess (token) {
-        let nowTime = new Date();
-        let a = nowTime.getTime() + (0.5 * 60 * 60);
-        console.log(nowTime.toUTCString());
-        console.log(nowTime.getTime());
-        console.log(a.toGMTString())
       }
     }
   }
