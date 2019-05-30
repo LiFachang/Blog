@@ -4,7 +4,7 @@
       <div class="input-box">
         <iconfont :id="'icon-icon_search'" :size="'26px'"></iconfont>
         <input class="search-input" type="text" placeholder="搜索内容">
-        <span class="search-btn">搜索</span>
+        <span @click="testcookie" class="search-btn">搜索</span>
       </div>
 
     </div>
@@ -26,6 +26,11 @@
       }
     },
     methods: {
+      testcookie () {
+        this.$post('/login/test').then(res => {
+          console.log(res)
+        }).catch(err => {console.log(err)})
+      }
     }
   }
 </script>

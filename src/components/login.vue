@@ -36,7 +36,10 @@
         alertMsg: {
           msg: ''
         },
-        tips: ''
+        tips: {
+          msg: '',
+          showImg: 0
+        }
       }
     },
     mounted() {

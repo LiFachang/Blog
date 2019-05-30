@@ -1,4 +1,5 @@
 import axios from 'axios'
+import router from '../router'
 
 
 axios.defaults.timeout = 10000;
@@ -8,17 +9,17 @@ axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 
 
 // http request 拦截器
-axios.interceptors.request.use(
-  config => {
-    if (sessionStorage.getItem('token')) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
-      config.headers.Authorization = `token ${sessionStorage.getItem('token')}`;
-    }
-    return config;
-  },
-  err => {
-    return Promise.reject(err);
-  }
-);
+// axios.interceptors.request.use(
+//   config => {
+//     if (sessionStorage.getItem('token')) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
+//       config.headers.Authorization = `token ${sessionStorage.getItem('token')}`;
+//     }
+//     return config;
+//   },
+//   err => {
+//     return Promise.reject(err);
+//   }
+// );
 
 
 // http response 拦截器
@@ -28,6 +29,13 @@ axios.interceptors.response.use(
   },
   error => {
     if (error.response) {
+      switch (error.response.status) {
+        case 401:
+          router.replace({
+            name: 'login'
+          })
+          break
+      }
       //switch (error.response.status) {
         // 401: 未登录
         // 未登录则跳转登录页面，并携带当前页面的路径
@@ -123,7 +131,7 @@ export function post(api, params) {
         resolve(res.data);
       })
       .catch(err =>{
-        reject(err.data)
+        reject(err)
       })
   });
 }

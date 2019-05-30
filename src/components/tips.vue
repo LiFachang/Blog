@@ -1,11 +1,11 @@
 <template>
   <transition name="tips">
-    <div class="tips" v-if="tips">
+    <div class="tips" v-if="tips.msg">
       <div>
-        <div>
+        <div v-if="tips.showImg">
           <iconfont :id="'icon-icon_refresh'" :size="'24px'" :color="'#fff'"></iconfont>
         </div>
-        <span>{{tips}}</span>
+        <span>{{tips.msg}}</span>
       </div>
     </div>
   </transition>
@@ -47,11 +47,11 @@
     color: #fff;
   }
   .tips>div>span{
-    margin-top: 4px;
     font-size: 14px;
     letter-spacing: 1px;
   }
   .tips>div>div{
+    margin-bottom: 4px;
     animation: rotate .7s linear infinite;
   }
   @keyframes rotate {

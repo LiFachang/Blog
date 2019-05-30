@@ -5,13 +5,13 @@
         <headPhoto :src="''" :size="'40px'" :iconFontColor="'#fff'"></headPhoto>
         <span>我的用户名</span>
       </div>
-      <span class="submit-btn">确认发布</span>
+      <span class="submit-btn" @click="submitArticle">确认发布</span>
     </div>
 
     <!--文章标题-->
     <div class="edit-box">
       <p class="edit-tips">文章标题：</p>
-      <textarea class="textarea-title" placeholder="这里是文章标题" v-model="title" @input="inputTitle" :maxlength="maxLengthOfTitle"></textarea>
+      <textarea class="textarea-title" placeholder="这里是文章标题" v-model="title" :maxlength="maxLengthOfTitle"></textarea>
       <div class="length-tips">{{titleLength}}/{{maxLengthOfTitle}}</div>
     </div>
 
@@ -21,6 +21,8 @@
       <textarea class="textarea-content" placeholder="这里是文章内容" v-model="content" :maxlength="maxLengthOfContent"></textarea>
       <div class="length-tips">{{contentLength}}/{{maxLengthOfContent}}</div>
     </div>
+
+    <alert :alertMsg="alertMsg" @alertClick="alertClick"></alert>
   </div>
 </template>
 <script>
@@ -30,14 +32,33 @@
         title: '', // 文章标题
         content: '', // 文章内容
         maxLengthOfTitle: 50,
-        maxLengthOfContent: 300
+        maxLengthOfContent: 300,
+        alertMsg: {
+          msg: ''
+        }
       }
     },
     mounted() {
     },
     methods: {
-      inputTitle () {
-        console.log(this.title.length)
+      alertClick () {
+        this.alertMsg.msg = '';
+      },
+      submitArticle () {
+        if (this.title.trim() === '' || this.content.trim() === '') {
+          this.alertMsg.msg = '文章标题或文章内容不能为空'
+          return
+        }
+        let params = {
+          type: 1,
+          title: this.title,
+          content: this.content
+        }
+        this.$post('/addArticle', params).then(res => {
+          console.log(res)
+        }).catch(err => {
+          console.log('error', err)
+        })
       }
     },
     computed: {
