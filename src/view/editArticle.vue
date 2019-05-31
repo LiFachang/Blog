@@ -22,6 +22,9 @@
       <div class="length-tips">{{contentLength}}/{{maxLengthOfContent}}</div>
     </div>
 
+    <!--管理按钮-->
+    <manageBtn></manageBtn>
+
     <alert :alertMsg="alertMsg" @alertClick="alertClick"></alert>
   </div>
 </template>
@@ -35,13 +38,20 @@
         maxLengthOfContent: 300,
         alertMsg: {
           msg: ''
-        }
+        },
+        articleId: '' // 刚发布的文章的ID
       }
     },
     mounted() {
     },
     methods: {
       alertClick () {
+        if (this.alertMsg.msg.indexOf('成功') >= 0) {
+          this.$router.push({
+            name: 'article',
+            query: { id: this.articleId }
+          })
+        }
         this.alertMsg.msg = '';
       },
       submitArticle () {
@@ -56,6 +66,12 @@
         }
         this.$post('/addArticle', params).then(res => {
           console.log(res)
+          if (res.code !== 0) {
+            this.alertMsg.msg = res.message
+          } else {
+            this.articleId = res.articleId
+            this.alertMsg.msg = res.message
+          }
         }).catch(err => {
           console.log('error', err)
         })

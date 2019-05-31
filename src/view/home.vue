@@ -89,7 +89,7 @@
   }
   .article-other-info{color: #999;}
   .color{color: dodgerblue;}
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: 768px) {
     .author-head-photo-box{
       display: none;
     }

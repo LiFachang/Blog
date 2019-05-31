@@ -4,7 +4,6 @@ import search from './search.vue'
 import iconfont from './iconfont.vue'
 import manageBtn from './manageBtn.vue'
 import headPhoto from './headPhoto.vue'
-import authorInfo from './authorInfo.vue'
 import comment from './comment.vue'
 import tips from './tips.vue'
 
@@ -15,7 +14,6 @@ const myComponents = {
   iconfont,
   manageBtn,
   headPhoto,
-  authorInfo,
   comment,
   tips
 };
