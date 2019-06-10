@@ -25,7 +25,7 @@
     <!--管理按钮-->
     <manageBtn></manageBtn>
 
-    <alert :alertMsg="alertMsg" @alertClick="alertClick"></alert>
+    <alert :alert="alert" @alertClick="alertClick"></alert>
   </div>
 </template>
 <script>
@@ -36,7 +36,7 @@
         content: '', // 文章内容
         maxLengthOfTitle: 50,
         maxLengthOfContent: 300,
-        alertMsg: {
+        alert: {
           msg: ''
         },
         articleId: '' // 刚发布的文章的ID
@@ -46,17 +46,17 @@
     },
     methods: {
       alertClick () {
-        if (this.alertMsg.msg.indexOf('成功') >= 0) {
+        if (this.alert.msg.indexOf('成功') >= 0) {
           this.$router.push({
             name: 'article',
             query: { id: this.articleId }
           })
         }
-        this.alertMsg.msg = '';
+        this.alert.msg = '';
       },
       submitArticle () {
         if (this.title.trim() === '' || this.content.trim() === '') {
-          this.alertMsg.msg = '文章标题或文章内容不能为空'
+          this.alert.msg = '文章标题或文章内容不能为空'
           return
         }
         let params = {
@@ -67,10 +67,10 @@
         this.$post('/addArticle', params).then(res => {
           console.log(res)
           if (res.code !== 0) {
-            this.alertMsg.msg = res.message
+            this.alert.msg = res.message
           } else {
             this.articleId = res.articleId
-            this.alertMsg.msg = res.message
+            this.alert.msg = res.message
           }
         }).catch(err => {
           console.log('error', err)

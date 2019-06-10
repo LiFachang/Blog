@@ -5,25 +5,25 @@
 
     <!--文章列表-->
       <ul class="article-list-box container">
-        <li>
-          <p class="article-title" @click="navTo('article')">一个经典面试题：如何保证缓存与数据库的双写一致性？</p>
-          <p class="article-abstract">只要用缓存，就可能会涉及到缓存与数据库双存储双写，你只要是双写，就一定会有数据一致性的问题，那么你，只要用缓存，就可能会涉及到缓存与数据库双存储双写，你只要是双写，就一定会有数据一致性的问题，那么你，只要用缓存，就可能会涉及到缓存与数据库双存储双写，你只要是双写，就一定会有数据一致性的问题，那么你，只要用缓存，就可能会涉及到缓存与数据库双存储双写，你只要是双写，就一定会有数据一致性的问题，那么你</p>
+        <li v-for="(item, index) in articleList" :key="index">
+          <p class="article-title" @click="navTo('article', item.article_id)">{{item.article_title}}</p>
+          <p class="article-abstract">{{item.article_content}}</p>
           <div class="article-other-info">
             <div class="article-author">
               <div class="author-head-photo-box">
-                <headPhoto :src="''" :size="'40px'"></headPhoto>
+                <headPhoto :src="item.user_head_photo" :size="'40px'"></headPhoto>
               </div>
-              <span class="color">作者姓名</span>
+              <span class="color">{{item.user_name}}</span>
               <i>|</i>
-              <span>发布时间</span>
+              <span>{{item.article_createtime | parseTime}}</span>
             </div>
 
             <div class="article-degree">
-              <span>阅读<span>2550</span></span>
+              <span>阅读<span>{{item.article_read || 0}}</span></span>
               <i>|</i>
-              <span>评论<span>29</span></span>
+              <span>评论<span>{{item.article_comment || 0}}</span></span>
               <i>|</i>
-              <span>赞<span>99</span></span>
+              <span>赞<span>{{item.article_fabulous || 0}}</span></span>
             </div>
           </div>
         </li>
@@ -31,20 +31,38 @@
 
     <!--管理按钮-->
     <manageBtn></manageBtn>
+
+    <alert :alert="alert" @alertClick="alertClick"></alert>
   </div>
 </template>
 <script>
   export default {
     data() {
-      return {}
+      return {
+        articleList: [],
+        alert: {
+          msg: ''
+        }
+      }
     },
     mounted() {
+      this.$post('/home/getArticleList').then(res => {
+        if (res.code !== 0) {
+          this.alert.msg = '获取文章列表失败!'
+          return
+        }
+        this.articleList = res.data
+      }).catch(err => {console.log(err)})
     },
     methods: {
-      navTo(name) {
+      navTo(routerName, id) {
         this.$router.push({
-          name: name
+          name: routerName,
+          query: {id}
         })
+      },
+      alertClick () {
+        this.alert.msg = ''
       }
     }
   }

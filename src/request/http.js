@@ -1,11 +1,15 @@
 import axios from 'axios'
 import router from '../router'
 
+if (process.env.NODE_ENV === 'production') {
+  axios.defaults.withCredentials = true
+}
 
-axios.defaults.timeout = 10000;
+
+// axios.defaults.timeout = 10000;
 
 
-axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
+// axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 
 
 // http request 拦截器
@@ -110,9 +114,9 @@ export function get(api, params){
     axios.get(process.env.API_HOST + api, {
       params: params
     }).then(res => {
-      resolve(res.data);
+      resolve(res.data)
     }).catch(err =>{
-      reject(err.data)
+      reject(err)
     })
   });
 }
@@ -126,9 +130,24 @@ export function get(api, params){
  */
 export function post(api, params) {
   return new Promise((resolve, reject) => {
-    axios.post(process.env.API_HOST + api, JSON.stringify(params))
+    axios.post(process.env.API_HOST + api, params)
       .then(res => {
-        resolve(res.data);
+        resolve(res.data)
+      })
+      .catch(err =>{
+        reject(err)
+      })
+  });
+}
+
+/**
+ * 自定义uploadimg方法
+ */
+export function uploadimg(api, params) {
+  return new Promise((resolve, reject) => {
+    axios.post(process.env.API_HOST + api, params, { headers: {'Content-Type': 'multipart/form-data'} })
+      .then(res => {
+        resolve(res.data)
       })
       .catch(err =>{
         reject(err)

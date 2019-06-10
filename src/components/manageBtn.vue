@@ -43,7 +43,7 @@
         if (name === 'myCenter') {
           let w = document.documentElement.clientWidth;
           let routerName = '';
-          w < 1024 ? routerName = 'myCenterMobile' : routerName = 'myCenterPc';
+          w < 768 ? routerName = 'myCenterMobile' : routerName = 'myCenterPc';
           console.log(w, routerName);
           this.$router.push({
             name: routerName

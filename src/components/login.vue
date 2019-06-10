@@ -21,7 +21,7 @@
     <div class="btn btn-active" v-if="title === '注册'" @click="register">注册</div>
     <router-link v-if="title === '注册'" tag="div" class="btn" :to="{name: 'login'}">已有账号，去登录</router-link>
 
-    <alert :alertMsg="alertMsg" @alertClick="alertClick"></alert>
+    <alert :alert="alert" @alertClick="alertClick"></alert>
     <tips :tips="tips"></tips>
   </div>
 </template>
@@ -33,7 +33,7 @@
         userName: '',
         userPwd: '',
         repeatPwd: '',
-        alertMsg: {
+        alert: {
           msg: ''
         },
         tips: {
@@ -55,12 +55,12 @@
     methods: {
       login () {
         if (this.userName.trim() === '' || this.userPwd.trim() === '') {
-          this.alertMsg.msg = '用户名或密码不能为空，请重新输入';
+          this.alert.msg = '用户名或密码不能为空，请重新输入';
           return
         }
         let params = {
-          userName: this.userName,
-          userPwd: this.userPwd
+          name: this.userName,
+          password: this.userPwd
         }
         this.$post('/login', params).then(res => {
           if (res.code === 0) {
@@ -68,31 +68,31 @@
               name: 'home'
             })
           } else {
-            this.alertMsg.msg = res.message
+            this.alert.msg = res.message
           }
         }).catch(err => console.log(err))
       },
       register () {
         if (this.userName.trim() === '' || this.userPwd.trim() === '') {
-          this.alertMsg.msg = '用户名或密码不能为空，请重新输入';
+          this.alert.msg = '用户名或密码不能为空，请重新输入';
           return
         }
 
         if (this.userPwd === this.repeatPwd) {
           this.toRegister();
         } else {
-          this.alertMsg.msg = '两次密码不一致，请重新输入';
+          this.alert.msg = '两次密码不一致，请重新输入';
           return
         }
       },
       alertClick () {
-        if (this.alertMsg.msg.indexOf('成功') >= 0) {
-          this.alertMsg.msg = '';
+        if (this.alert.msg.indexOf('成功') >= 0) {
+          this.alert.msg = '';
           this.$router.push({
             name: 'login'
           })
         } else {
-          this.alertMsg.msg = '';
+          this.alert.msg = '';
         }
       },
       toRegister() {
@@ -102,11 +102,11 @@
         }
         this.$post('/register', params).then(res => {
           if (res.code === 0) {
-            this.alertMsg.title = ''
+            this.alert.title = ''
           } else {
-            this.alertMsg.title = '错误'
+            this.alert.title = '错误'
           }
-          this.alertMsg.msg = res.message;
+          this.alert.msg = res.message;
         }).catch(err => console.log(err));
       }
     }

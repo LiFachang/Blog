@@ -1,10 +1,10 @@
 <template>
   <transition name="alert">
-    <div v-if="alertMsg.msg !== ''" class="alert">
+    <div v-if="alert.msg !== ''" class="alert">
       <div>
-        <p class="title">{{alertMsg.title ? alertMsg.title : '提示'}}</p>
-        <p class="txt">{{alertMsg.msg}}</p>
-        <div class="btn" @click="alertClick">{{alertMsg.btnTxt ? alertMsg.btnTxt : '确定'}}</div>
+        <p class="title">{{alert.title ? alert.title : '提示'}}</p>
+        <p class="txt">{{alert.msg}}</p>
+        <div class="btn" @click="alertClick">{{alert.btnTxt ? alert.btnTxt : '确定'}}</div>
       </div>
     </div>
   </transition>
@@ -12,7 +12,7 @@
 <script>
   export default {
     props: {
-      alertMsg: { type: Object } //title msg btnTxt
+      alert: { type: Object } //title msg btnTxt
     },
     data() {
       return {}
