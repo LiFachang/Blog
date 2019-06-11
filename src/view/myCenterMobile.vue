@@ -48,6 +48,8 @@
         <td>{{zanNum}}</td>
       </tr>
     </table>
+    <alert :alert="alert" @alertClick="alertClick"></alert>
+    <tips :tips="tips"></tips>
   </div>
 </template>
 <script>
@@ -64,44 +66,59 @@
         articleNum: 0,
         readNum: 0,
         commentNum: 0,
-        zanNum: 0
+        zanNum: 0,
+        alert: {
+          msg: ''
+        },
+        tips: ''
       }
     },
     mounted() {
-
+      this.$post('/getUserAllInfo').then(res => {
+        console.log(res)
+        if (res.code === 0) {
+          let infoObj = res.data[0]
+          this.headPhoto = 'http://140.143.163.171:8888/' + infoObj.user_head_photo
+          this.name = infoObj.user_name
+          this.age = infoObj.user_age
+          this.sex = infoObj.user_sex
+          this.tel = infoObj.user_tel
+          this.email = infoObj.user_email
+        }
+      }).catch(err => {console.log(err)})
     },
     methods: {
       inputHeadPhoto (event) {
         let file = event.target.files[0]
+        if (!file) {
+          return
+        }
+        this.tips = '上传中...'
         let r = new FileReader()
         r.readAsDataURL(file);
         r.onload = () => {
-          this.headPhoto = r.result
-
 //          上传图片
           let param = new FormData()
           param.append('file', file, '我的头像')
-          param.append('chunk','11111')
-          console.log(param)
           this.$uploadimg('/updateUserInfo', param).then(res => {
             console.log(res)
+            this.tips = ''
+            if (res.code === 0) {
+              this.alert.msg = '头像上传成功'
+              this.headPhoto = r.result
+            } else {
+              this.alert.msg = '头像上传失败'
+              this.headPhoto = ''
+            }
           }).catch(err => {
             console.error(err)
           })
         }
-//        let src = null
-//        if (window.createObjectURL !== undefined) { // basic
-//          src = window.createObjectURL(file)
-//        } else if (window.URL !== undefined) { // mozilla(firefox)
-//          src = window.URL.createObjectURL(file)
-//        } else if (window.webkitURL !== undefined) { // webkit or chrome
-//          src = window.webkitURL.createObjectURL(file)
-//        }
-//        this.headPhoto = src
-//
-//        let oFormData = new FormData()
-//        oFormData.append('head_photo', file)
-//        console.log(oFormData)
+      },
+      alertClick () {
+        if (this.alert.msg.indexOf('成功') > -1) {
+          this.alert.msg = ''
+        }
       }
     }
   }

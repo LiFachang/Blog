@@ -6,7 +6,7 @@
     <!--文章列表-->
       <ul class="article-list-box container">
         <li v-for="(item, index) in articleList" :key="index">
-          <p class="article-title" @click="navTo('article', item.article_id)">{{item.article_title}}</p>
+          <p class="article-title"><span @click="navTo('article', item.article_id)">{{item.article_title}}</span></p>
           <p class="article-abstract">{{item.article_content}}</p>
           <div class="article-other-info">
             <div class="article-author">
@@ -46,7 +46,7 @@
       }
     },
     mounted() {
-      this.$post('/home/getArticleList').then(res => {
+      this.$get('/home/getArticleList').then(res => {
         if (res.code !== 0) {
           this.alert.msg = '获取文章列表失败!'
           return

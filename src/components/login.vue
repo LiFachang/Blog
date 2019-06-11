@@ -36,10 +36,7 @@
         alert: {
           msg: ''
         },
-        tips: {
-          msg: '',
-          showImg: 0
-        }
+        tips: ''
       }
     },
     mounted() {

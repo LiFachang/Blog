@@ -1,9 +1,7 @@
 import axios from 'axios'
 import router from '../router'
 
-if (process.env.NODE_ENV === 'production') {
-  axios.defaults.withCredentials = true
-}
+axios.defaults.withCredentials = true
 
 
 // axios.defaults.timeout = 10000;
