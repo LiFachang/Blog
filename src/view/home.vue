@@ -81,6 +81,8 @@
   .article-title{
     font-weight: bold;
     font-size: 18px;
+  }
+  .article-title>span{
     cursor: pointer;
   }
   .article-abstract{

@@ -20,7 +20,7 @@
         <td>
           <label><input type="radio" v-model="sex" value="1">男</label>
           <label><input type="radio" v-model="sex" value="2">女</label>
-          <label><input type="radio" v-model="sex" value="3">未知</label>
+          <label><input type="radio" v-model="sex" value="3">保密</label>
         </td>
       </tr>
       <tr>
@@ -48,6 +48,9 @@
         <td>{{zanNum}}</td>
       </tr>
     </table>
+    <transition name="fade">
+      <div class="btn" v-if="canUpdate" @click="updateUserInfo">更新</div>
+    </transition>
     <alert :alert="alert" @alertClick="alertClick"></alert>
     <tips :tips="tips"></tips>
   </div>
@@ -59,14 +62,15 @@
         headPhoto: '',
         headPhotoInput: '',
         name: '',
-        age: null,
-        sex: null,
-        tel: null,
-        email: null,
+        age: '',
+        sex: '',
+        tel: '',
+        email: '',
         articleNum: 0,
         readNum: 0,
         commentNum: 0,
         zanNum: 0,
+        nowInfo: {}, // 当前用户信息
         alert: {
           msg: ''
         },
@@ -77,13 +81,13 @@
       this.$post('/getUserAllInfo').then(res => {
         console.log(res)
         if (res.code === 0) {
-          let infoObj = res.data[0]
-          this.headPhoto = 'http://140.143.163.171:8888/' + infoObj.user_head_photo
-          this.name = infoObj.user_name
-          this.age = infoObj.user_age
-          this.sex = infoObj.user_sex
-          this.tel = infoObj.user_tel
-          this.email = infoObj.user_email
+          let nowInfo = res.data[0]
+          this.headPhoto = 'http://140.143.163.171:8888/' + nowInfo.user_head_photo
+          this.nowInfo.name = this.name = nowInfo.user_name || ''
+          this.nowInfo.age = this.age = nowInfo.user_age || ''
+          this.nowInfo.sex = this.sex = nowInfo.user_sex || ''
+          this.nowInfo.tel = this.tel = nowInfo.user_tel || ''
+          this.nowInfo.email = this.email = nowInfo.user_email || ''
         }
       }).catch(err => {console.log(err)})
     },
@@ -100,6 +104,7 @@
 //          上传图片
           let param = new FormData()
           param.append('file', file, '我的头像')
+          param.append('dataType', 'photo')
           this.$uploadimg('/updateUserInfo', param).then(res => {
             console.log(res)
             this.tips = ''
@@ -119,11 +124,36 @@
         if (this.alert.msg.indexOf('成功') > -1) {
           this.alert.msg = ''
         }
+      },
+      updateUserInfo () {
+        let params = {}
+        this.name !== this.nowInfo.name ? params.name = this.name : null
+        this.age !== this.nowInfo.age ? params.age = this.age : null
+        this.sex !== this.nowInfo.sex ? params.sex = this.sex : null
+        this.tel !== this.nowInfo.tel ? params.tel = this.tel : null
+        this.email !== this.nowInfo.email ? params.email = this.email : null
+        console.log(params)
+        this.$post('/updateUserInfo', params).then(res => {
+          console.log(res)
+        }).catch(err => {console.log(err)})
+      }
+    },
+    computed: {
+      canUpdate () {
+        return this.name !== this.nowInfo.name ||
+          this.age !== this.nowInfo.age ||
+          this.sex !== this.nowInfo.sex ||
+          this.tel !== this.nowInfo.tel ||
+          this.email !== this.nowInfo.email
+          ? true : false
       }
     }
   }
 </script>
 <style scoped>
+  .my-center{
+    padding-bottom: 100px;
+  }
   .top{
     overflow: hidden;
     position: relative;
@@ -182,5 +212,16 @@
     font-size: 18px;
     padding-right: 10px;
     appearance: none;
+  }
+  .btn{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: dodgerblue;
+    color: #fff;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
   }
 </style>
