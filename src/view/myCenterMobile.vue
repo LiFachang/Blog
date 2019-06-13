@@ -104,7 +104,6 @@
 //          上传图片
           let param = new FormData()
           param.append('file', file, '我的头像')
-          param.append('dataType', 'photo')
           this.$uploadimg('/updateUserInfo', param).then(res => {
             console.log(res)
             this.tips = ''
@@ -132,6 +131,7 @@
         this.sex !== this.nowInfo.sex ? params.sex = this.sex : null
         this.tel !== this.nowInfo.tel ? params.tel = this.tel : null
         this.email !== this.nowInfo.email ? params.email = this.email : null
+        params.dataType = 'txt'
         console.log(params)
         this.$post('/updateUserInfo', params).then(res => {
           console.log(res)
