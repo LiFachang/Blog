@@ -61,6 +61,7 @@
         }
         this.$post('/login', params).then(res => {
           if (res.code === 0) {
+            sessionStorage.setItem('user_info', JSON.stringify(res.data))
             this.$router.push({
               name: 'home'
             })

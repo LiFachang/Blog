@@ -78,18 +78,29 @@
       }
     },
     mounted() {
-      this.$post('/getUserAllInfo').then(res => {
-        console.log(res)
-        if (res.code === 0) {
-          let nowInfo = res.data[0]
-          this.headPhoto = 'http://140.143.163.171:8888/' + nowInfo.user_head_photo
-          this.nowInfo.name = this.name = nowInfo.user_name || ''
-          this.nowInfo.age = this.age = nowInfo.user_age || ''
-          this.nowInfo.sex = this.sex = nowInfo.user_sex || ''
-          this.nowInfo.tel = this.tel = nowInfo.user_tel || ''
-          this.nowInfo.email = this.email = nowInfo.user_email || ''
-        }
-      }).catch(err => {console.log(err)})
+      if (sessionStorage.getItem('user_info')) {
+        let obj = JSON.parse(sessionStorage.getItem('user_info'))
+        this.headPhoto = obj.head_photo
+        this.nowInfo.name = this.name = obj.name || ''
+        this.nowInfo.age = this.age = obj.age || ''
+        this.nowInfo.sex = this.sex = obj.sex || ''
+        this.nowInfo.tel = this.tel = obj.tel || ''
+        this.nowInfo.email = this.email = obj.email || ''
+      } else {
+        this.$post('/getUserAllInfo').then(res => {
+          console.log(res)
+          if (res.code === 0) {
+            let nowInfo = res.data[0]
+            this.nowInfo.head_photo = this.headPhoto = 'http://140.143.163.171:8888/' + nowInfo.user_head_photo
+            this.nowInfo.name = this.name = nowInfo.user_name || ''
+            this.nowInfo.age = this.age = nowInfo.user_age || ''
+            this.nowInfo.sex = this.sex = nowInfo.user_sex || ''
+            this.nowInfo.tel = this.tel = nowInfo.user_tel || ''
+            this.nowInfo.email = this.email = nowInfo.user_email || ''
+            sessionStorage.setItem('user_info', JSON.stringify(this.nowInfo))
+          }
+        }).catch(err => {console.log(err)})
+      }
     },
     methods: {
       inputHeadPhoto (event) {
@@ -108,8 +119,7 @@
             console.log(res)
             this.tips = ''
             if (res.code === 0) {
-              this.alert.msg = '头像上传成功'
-              this.headPhoto = r.result
+              location.reload()
             } else {
               this.alert.msg = '头像上传失败'
               this.headPhoto = ''
@@ -135,6 +145,13 @@
         console.log(params)
         this.$post('/updateUserInfo', params).then(res => {
           console.log(res)
+          if (res.code !== 0) {
+
+          } else {
+            sessionStorage.removeItem('user_info')
+            location.reload()
+          }
+          this.alert.msg = res.message
         }).catch(err => {console.log(err)})
       }
     },
